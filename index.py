@@ -1,7 +1,9 @@
 from flask import make_response,Response,request,redirect,Flask
 from requests import get
+from flask_sockets import Sockets
 import gevent
 app = Flask(__name__)
+sockets = Sockets(app)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -12,3 +14,8 @@ def catch_all(path):
     return response
     #return Response("<h1>Flask</h1><p>You visited: /%s</p>" % (path), mimetype="text/html")
 
+@sockets.route('/eeee')
+def eeee_socket(ws):
+    while not ws.closed:
+        message = ws.receive()
+        ws.send(message)
