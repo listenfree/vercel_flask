@@ -5,8 +5,8 @@ import gevent
 app = Flask(__name__)
 sockets = Sockets(app)
 
-@app.route('/i', defaults={'path': ''})
-@app.route('/i/<path:path>')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
 def catch_all(path):
     image_binary = get("https://loremflickr.com/600/400").content
     response = make_response(image_binary)
